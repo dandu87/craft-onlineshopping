@@ -1,0 +1,216 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/336e9d26-475f-4795-b1d8-6e4cf23e381b/ # 
+title: craft-online-shopping
+
+version: 1.0
+mediaType: 
+- application/json
+
+
+uses:
+  mylib: library.raml
+
+/users:
+  description: this is the users resource
+  get:
+    queryParameters:
+      id:
+        description: id
+        type: integer
+        required: true 
+      fullname:
+        description: fullname & lastname
+        type: string
+        enum:
+          [john,mike]
+        required: false
+      username: 
+        description: username 
+        maxLength: 10
+        minLength: 4
+        required: false
+        default: john77
+    description: users resource get http status code response. 
+
+    responses:
+      200:
+        body:
+          application/json:
+            type: mylib.users
+            example: !include Examples/users.json
+
+  type:
+    mylib.collection:
+      example: !include Examples/users.json 
+
+  is: 
+  - mylib.respoMessage:
+    
+    
+ 
+
+/users/{ID}:
+  description: this is the user resource
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: mylib.users
+            example: !include Examples/users.json
+           
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+#  type:
+#    collection:
+#      resourcePath: user
+
+  is: 
+  - mylib.respoMessage:
+
+  post:
+    description: list of post status codes
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+             "uid": 1526
+              }
+
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+/products:
+
+  description: This is the products resource
+  get:
+    description: products resource get http status code response
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/products.json
+             
+  type:
+    mylib.collection:
+      resourcePath: products
+
+  is: 
+  - mylib.respoMessage:
+
+/products/{ID}: 
+  description: this is products resource by id
+  get:
+    description: products resources status codes
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/productid.json
+
+
+  is: 
+  - mylib.respoMessage:
+
+/orders:
+  get:
+    responses:
+      
+      200:
+        body:
+          application/json:
+            example: !include Examples/orders.json
+      
+  type:
+    mylib.collection:
+      resourcePath: orders
+
+  is: 
+  - mylib.respoMessage:
+
+  post:
+    responses:
+      
+      201:
+        body:
+          application/json:
+            example:
+              {
+             "orderid": 1526
+              }
+
+/orders/{ID}:
+  get:
+    responses:
+      200: 
+        body:
+          application/json:
+            example: !include Examples/orderid.json
+
+  is: 
+  - mylib.respoMessage:
+
+/orders{/userID}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/orderuid.json
+    
+  type:
+    mylib.collection:
+     resourcePath: orders
+
+  is: 
+  - mylib.respoMessage:
+
+
+
+/categories: 
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/categories.json
+
+  type:
+    mylib.collection:
+      resourcePath: categories
+      
+  is: 
+  - mylib.respoMessage:
+
+/categories/{ID}: 
+  get:
+    description: users resource http by ID number
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/categoryid.json
+             
+  type:
+    mylib.collection:
+      resourcePath: categories
+    
+  is:
+    - mylib.respoMessage
+
+
+      
+
+  
